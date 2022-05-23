@@ -316,6 +316,7 @@ class Document(object):
         self.packages = []
         if package is not None:
             self.packages.append(package)
+        self.unpackaged_files = []
         self.extracted_licenses = []
         self.reviews = []
         self.annotations = []
@@ -330,6 +331,9 @@ class Document(object):
 
     def add_relationships(self, relationship):
         self.relationships.append(relationship)
+
+    def add_file(self, value):
+        self.unpackaged_files.append(value)
 
     def add_extr_lic(self, lic):
         self.extracted_licenses.append(lic)
@@ -370,10 +374,16 @@ class Document(object):
 
     @property
     def files(self):
+        warnings.warn('document.package and document.files are deprecated; '
+                      'use document.packages instead',
+                      DeprecationWarning)
         return self.package.files
 
     @files.setter
     def files(self, value):
+        warnings.warn('document.package and document.files are deprecated; '
+                      'use document.packages instead',
+                      DeprecationWarning)
         self.package.files = value
 
     @property
@@ -400,6 +410,7 @@ class Document(object):
         self.validate_creation_info(messages)
         self.validate_packages(messages)
         self.validate_extracted_licenses(messages)
+        self.validate_unpackaged_files(messages)
         self.validate_reviews(messages)
         self.validate_snippet(messages)
         self.validate_annotations(messages)
@@ -487,3 +498,6 @@ class Document(object):
                     "Document extracted licenses must be of type "
                     "spdx.document.ExtractedLicense and not " + type(lic)
                 )
+    def validate_unpackaged_files(self, messages):
+        for value in self.unpackaged_files:
+            messages = value.validate(messages)
