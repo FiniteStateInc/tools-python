@@ -471,6 +471,9 @@ class Writer(
         self.document_object["SPDXID"] = self.spdx_id(self.document.spdx_id)
         self.document_object["name"] = self.document.name
 
+        if self.document.unpackaged_files:
+            self.document_object["files"] = self.document.unpackaged_files
+
         package_objects = []
         for package in self.document.packages:
             package_info_object = self.create_package_info(package)
