@@ -279,6 +279,7 @@ class Document(object):
     - documentNamespace: SPDX document specific namespace. Mandatory, one. Type: str
     - creation_info: SPDX file creation info. Mandatory, one. Type: CreationInfo
     - package: Package described by this document. Mandatory, one. Type: Package
+    - unpackaged_files: Files not part of any package. Optional zero or more. Type: File.
     - extracted_licenses: List of licenses extracted that are not part of the
       SPDX license list. Optional, many. Type: ExtractedLicense.
     - reviews: SPDX document review information, Optional zero or more.
@@ -499,5 +500,5 @@ class Document(object):
                     "spdx.document.ExtractedLicense and not " + type(lic)
                 )
     def validate_unpackaged_files(self, messages):
-        for value in self.unpackaged_files:
-            messages = value.validate(messages)
+        for spdx_file in self.unpackaged_files:
+            messages = spdx_file.validate(messages)
