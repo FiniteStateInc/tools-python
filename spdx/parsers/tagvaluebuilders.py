@@ -162,22 +162,6 @@ class DocBuilder(object):
         else:
             raise CardinalityError("Document::Comment")
 
-    def set_doc_pkgs_started(self, doc):
-        """
-        Indicate Package has been set.
-        Raise value error if malformed value.
-        Raise CardinalityError if already defined.
-        """
-        if not self.doc_pkgs_started_set:
-            if len(doc.packages) == "SPDXRef-DOCUMENT":
-                doc.spdx_id = doc_spdx_id_line
-                self.doc_pkgs_started_set = True
-                return True
-            else:
-                raise SPDXValueError("Document::SPDXID")
-        else:
-            raise CardinalityError("Document::SPDXID")
-
     def reset_document(self):
         """
         Reset the state to allow building new documents
@@ -189,7 +173,6 @@ class DocBuilder(object):
         self.doc_data_lics_set = False
         self.doc_name_set = False
         self.doc_spdx_id_set = False
-        self.doc_pkgs_started_set = False
 
 
 class ExternalDocumentRefBuilder(object):
