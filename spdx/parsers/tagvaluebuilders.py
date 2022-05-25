@@ -1040,7 +1040,6 @@ class FileBuilder(object):
         else:
             # Starting with SPDX 2.0, file entries may proceed any package information section
             doc.unpackaged_files.append(file.File(name))
-            # raise OrderError("File::Name")  #TODO: CLEANUP
         # A file name marks the start of a new file instance.
         # The builder must be reset
         # FIXME: this state does not make sense
