@@ -43,7 +43,7 @@
         <copyrightText>Copyright 2022 Example Client Inc.</copyrightText>
         <licenseInfoInFile rdf:resource="http://spdx.org/licenses/Apache-2.0"/>
         <licenseConcluded rdf:resource="http://spdx.org/licenses/Apache-2.0"/>
-        <fileType rdf:resource="http://spdx.org/rdf/terms#fileType_source"/>
+        <fileType rdf:resource="http://spdx.org/rdf/terms#fileType_other"/>
         <checksum>
           <Checksum>
             <checksumValue>1b30f385d353620c845594d7ef96b3dd6d17a69a</checksumValue>

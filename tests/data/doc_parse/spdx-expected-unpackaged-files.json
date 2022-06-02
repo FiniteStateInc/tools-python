@@ -133,7 +133,7 @@
         {
           "id": "https://spdx.org/spdxdocs/spdx-example-F16320D4-36AB-476D-9691-59E1BAD31206#SPDXRef-File1",
           "name": "file.bin",
-          "type": 1,
+          "type": 4,
           "comment": null,
           "licenseConcluded": {
             "type": "Single",
