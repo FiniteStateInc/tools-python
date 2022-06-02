@@ -214,7 +214,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</extractedText>
         <licenseInfoFromFiles rdf:nodeID="A4"/>
         <name>SPDX Translator</name>
         <versionInfo>Version 0.9.2</versionInfo>
-        <licenseInfoFromFiles/>
         <hasFile rdf:nodeID="A2"/>
         <licenseInfoFromFiles rdf:nodeID="A3"/>
         <copyrightText> Copyright 2010, 2011 Source Auditor Inc.</copyrightText>
