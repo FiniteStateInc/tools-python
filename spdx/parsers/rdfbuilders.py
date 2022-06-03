@@ -386,9 +386,12 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Set the file check sum, if not already set.
         chk_sum - A string
         Raise CardinalityError if already defined.
-        Raise OrderError if no package previously defined.
+        Raise OrderError if no package/unpackaged file previously defined.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             if not self.file_chksum_set:
                 self.file_chksum_set = True
                 self.file(doc).chk_sum = checksum.Algorithm("SHA1", chk_sum)
@@ -403,7 +406,10 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Raise OrderError if no package or file defined.
         Raise CardinalityError if more than one per file.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             if not self.file_license_comment_set:
                 self.file_license_comment_set = True
                 self.file(doc).license_comment = text
@@ -417,7 +423,10 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         """
         Set the file's attribution text.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             self.assert_package_exists()
             self.file(doc).attribution_text = text
             return True
@@ -427,7 +436,10 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Raise OrderError if no package or file defined.
         Raise CardinalityError if more than one.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             if not self.file_copytext_set:
                 self.file_copytext_set = True
                 self.file(doc).copyright = text
@@ -442,7 +454,10 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Raise OrderError if no package or no file defined.
         Raise CardinalityError if more than one comment set.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             if not self.file_comment_set:
                 self.file_comment_set = True
                 self.file(doc).comment = text
@@ -457,7 +472,10 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Raise OrderError if no package or file defined.
         Raise CardinalityError if more than one.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if (
+            (self.has_package(doc) and self.has_file(doc))
+            or (self.has_unpackaged_file(doc) and not self.package_set)
+        ):
             if not self.file_notice_set:
                 self.file_notice_set = True
                 self.file(doc).notice = tagvaluebuilders.str_from_text(text)

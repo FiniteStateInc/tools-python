@@ -17,6 +17,7 @@ from rdflib import Graph
 from rdflib import Namespace
 from rdflib import RDF
 from rdflib import RDFS
+from rdflib.term import URIRef
 
 from spdx import document
 from spdx import utils
@@ -1300,6 +1301,11 @@ class Parser(
             self.handle_extracted_license(s)
 
         for s, _p, o in self.graph.triples(
+            (URIRef(self.doc.spdx_id), self.spdx_namespace["referencesFile"], None)
+        ):
+            self.parse_file(o)  # Document-level ref file (unpackaged)
+
+        for s, _p, o in self.graph.triples(
             (None, RDF.type, self.spdx_namespace["Package"])
         ):
             self.parse_package(s)
@@ -1312,7 +1318,8 @@ class Parser(
         for s, _p, o in self.graph.triples(
             (None, self.spdx_namespace["referencesFile"], None)
         ):
-            self.parse_file(o)
+            if not str(s) == self.doc.spdx_id:
+                self.parse_file(o)  # Package child ref file
 
         for s, _p, o in self.graph.triples(
             (None, RDF.type, self.spdx_namespace["Snippet"])
