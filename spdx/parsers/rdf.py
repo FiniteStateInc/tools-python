@@ -366,6 +366,7 @@ class PackageParser(LicenseParser):
         self.p_pkg_summary(p_term, self.spdx_namespace["summary"])
         self.p_pkg_descr(p_term, self.spdx_namespace["description"])
         self.p_pkg_comment(p_term, self.spdx_namespace["comment"])
+        self.p_pkg_has_file(p_term, self.spdx_namespace["hasFile"])
 
     def p_pkg_cr_text(self, p_term, predicate):
         try:
@@ -396,6 +397,13 @@ class PackageParser(LicenseParser):
                 self.builder.set_pkg_comment(self.doc, str(comment))
         except CardinalityError:
             self.more_than_one_error("package comment")
+
+    def p_pkg_has_file(self, p_term, predicate):
+        for _, _, has_file in self.graph.triples((p_term, predicate, None)):
+            for index, spdx_file in enumerate(self.doc.unpackaged_files):
+                if str(has_file) == spdx_file.spdx_id:
+                    self.doc.packages[-1].files.append(spdx_file)
+                    del self.doc.unpackaged_files[index]
 
     def p_pkg_attribution_text(self, p_term, predicate):
         try:
@@ -1319,7 +1327,8 @@ class Parser(
             (None, self.spdx_namespace["referencesFile"], None)
         ):
             if not str(s) == self.doc.spdx_id:
-                self.parse_file(o)  # Package child ref file
+                # self.parse_file(o)  # TODO: Package child ref file?
+                raise NotImplementedError(f"Processing {s} referencesFile")
 
         for s, _p, o in self.graph.triples(
             (None, RDF.type, self.spdx_namespace["Snippet"])
