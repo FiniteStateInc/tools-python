@@ -386,7 +386,7 @@ class FileBuilder(tagvaluebuilders.FileBuilder):
         Set the file check sum, if not already set.
         chk_sum - A string
         Raise CardinalityError if already defined.
-        Raise OrderError if no package/unpackaged file previously defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         """
         if (self._build_file_valid(doc)):
             if not self.file_chksum_set:

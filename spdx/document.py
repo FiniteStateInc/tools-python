@@ -499,6 +499,7 @@ class Document(object):
                     "Document extracted licenses must be of type "
                     "spdx.document.ExtractedLicense and not " + type(lic)
                 )
+
     def validate_unpackaged_files(self, messages):
         for spdx_file in self.unpackaged_files:
             messages = spdx_file.validate(messages)

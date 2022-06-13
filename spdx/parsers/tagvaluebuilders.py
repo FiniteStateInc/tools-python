@@ -1059,7 +1059,7 @@ class FileBuilder(object):
     def set_file_spdx_id(self, doc, spdx_id):
         """
         Set the file SPDX Identifier.
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise SPDXValueError if malformed value.
         Raise CardinalityError if more than one spdx_id set.
         """
@@ -1078,7 +1078,7 @@ class FileBuilder(object):
 
     def set_file_comment(self, doc, text):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise CardinalityError if more than one comment set.
         Raise SPDXValueError if text is not free form text.
         """
@@ -1109,7 +1109,7 @@ class FileBuilder(object):
 
     def set_file_type(self, doc, type_value):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise CardinalityError if more than one type set.
         Raise SPDXValueError if type is unknown.
         """
@@ -1134,7 +1134,7 @@ class FileBuilder(object):
 
     def set_file_chksum(self, doc, chksum):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise CardinalityError if more than one chksum set.
         """
         if (self._build_file_valid(doc)):
@@ -1149,7 +1149,7 @@ class FileBuilder(object):
 
     def set_concluded_license(self, doc, lic):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise CardinalityError if already set.
         Raise SPDXValueError if malformed.
         """
@@ -1168,7 +1168,7 @@ class FileBuilder(object):
 
     def set_file_license_in_file(self, doc, lic):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise SPDXValueError if malformed value.
         """
         if (self._build_file_valid(doc)):
@@ -1182,7 +1182,7 @@ class FileBuilder(object):
 
     def set_file_license_comment(self, doc, text):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise SPDXValueError if text is not free form text.
         Raise CardinalityError if more than one per file.
         """
@@ -1200,7 +1200,7 @@ class FileBuilder(object):
 
     def set_file_copyright(self, doc, text):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise SPDXValueError if not free form text or NONE or NO_ASSERT.
         Raise CardinalityError if more than one.
         """
@@ -1222,7 +1222,7 @@ class FileBuilder(object):
 
     def set_file_notice(self, doc, text):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise SPDXValueError if not free form text.
         Raise CardinalityError if more than one.
         """
@@ -1240,7 +1240,7 @@ class FileBuilder(object):
 
     def add_file_contribution(self, doc, value):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         """
         if (self._build_file_valid(doc)):
             self.file(doc).add_contrib(value)
@@ -1249,7 +1249,7 @@ class FileBuilder(object):
 
     def add_file_dep(self, doc, value):
         """
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         """
         if (self._build_file_valid(doc)):
             self.file(doc).add_depend(value)
@@ -1259,7 +1259,7 @@ class FileBuilder(object):
     def set_file_atrificat_of_project(self, doc, symbol, value):
         """
         Set a file name, uri or home artificat.
-        Raise OrderError if no package/unpackaged file is defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         """
         if (self._build_file_valid(doc)):
             self.file(doc).add_artifact(symbol, value)
