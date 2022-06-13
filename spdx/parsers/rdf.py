@@ -399,9 +399,10 @@ class PackageParser(LicenseParser):
             self.more_than_one_error("package comment")
 
     def p_pkg_has_file(self, p_term, predicate):
-        for _, _, has_file in self.graph.triples((p_term, predicate, None)):
+        for _, _, has_file_object in self.graph.triples((p_term, predicate, None)):
             for index, spdx_file in enumerate(self.doc.unpackaged_files):
-                if str(has_file) == spdx_file.spdx_id:
+                object_spdx_id = str(has_file_object)
+                if spdx_file.spdx_id == object_spdx_id:
                     self.doc.packages[-1].files.append(spdx_file)
                     del self.doc.unpackaged_files[index]
 
