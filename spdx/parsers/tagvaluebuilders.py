@@ -1031,6 +1031,16 @@ class FileBuilder(object):
         # FIXME: this state does not make sense
         self.reset_file_stat()
 
+    def _build_file_valid(self, doc):
+        """
+        Return true if building a File for referenced document is valid.
+        """
+        if self.has_package(doc) and self.has_file(doc):
+            return True
+        if not self.package_set and self.has_unpackaged_file(doc):
+            return True
+        return False
+
     def set_file_name(self, doc, name):
         """
         Set the file name.
@@ -1053,10 +1063,7 @@ class FileBuilder(object):
         Raise SPDXValueError if malformed value.
         Raise CardinalityError if more than one spdx_id set.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_spdx_id_set:
                 self.file_spdx_id_set = True
                 if validations.validate_file_spdx_id(spdx_id):
@@ -1075,10 +1082,7 @@ class FileBuilder(object):
         Raise CardinalityError if more than one comment set.
         Raise SPDXValueError if text is not free form text.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_comment_set:
                 self.file_comment_set = True
                 if validations.validate_file_comment(text):
@@ -1096,10 +1100,7 @@ class FileBuilder(object):
         Set the file's attribution text .
         Raise SPDXValueError if text is not free form text.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if validations.validate_file_attribution_text(text):
                 self.file(doc).comment = str_from_text(text)
                 return True
@@ -1118,10 +1119,7 @@ class FileBuilder(object):
             "ARCHIVE": file.FileType.ARCHIVE,
             "OTHER": file.FileType.OTHER,
         }
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_type_set:
                 self.file_type_set = True
                 if type_value in type_dict.keys():
@@ -1139,10 +1137,7 @@ class FileBuilder(object):
         Raise OrderError if no package/unpackaged file is defined.
         Raise CardinalityError if more than one chksum set.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_chksum_set:
                 self.file_chksum_set = True
                 self.file(doc).chk_sum = checksum_from_sha1(chksum)
@@ -1158,10 +1153,7 @@ class FileBuilder(object):
         Raise CardinalityError if already set.
         Raise SPDXValueError if malformed.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_conc_lics_set:
                 self.file_conc_lics_set = True
                 if validations.validate_lics_conc(lic):
@@ -1179,10 +1171,7 @@ class FileBuilder(object):
         Raise OrderError if no package/unpackaged file is defined.
         Raise SPDXValueError if malformed value.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if validations.validate_file_lics_in_file(lic):
                 self.file(doc).add_lics(lic)
                 return True
@@ -1197,10 +1186,7 @@ class FileBuilder(object):
         Raise SPDXValueError if text is not free form text.
         Raise CardinalityError if more than one per file.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_license_comment_set:
                 self.file_license_comment_set = True
                 if validations.validate_file_lics_comment(text):
@@ -1218,10 +1204,7 @@ class FileBuilder(object):
         Raise SPDXValueError if not free form text or NONE or NO_ASSERT.
         Raise CardinalityError if more than one.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_copytext_set:
                 self.file_copytext_set = True
                 if validations.validate_file_cpyright(text):
@@ -1243,10 +1226,7 @@ class FileBuilder(object):
         Raise SPDXValueError if not free form text.
         Raise CardinalityError if more than one.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             if not self.file_notice_set:
                 self.file_notice_set = True
                 if validations.validate_file_notice(text):
@@ -1262,10 +1242,7 @@ class FileBuilder(object):
         """
         Raise OrderError if no package/unpackaged file is defined.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             self.file(doc).add_contrib(value)
         else:
             raise OrderError("File::Contributor")
@@ -1274,10 +1251,7 @@ class FileBuilder(object):
         """
         Raise OrderError if no package/unpackaged file is defined.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             self.file(doc).add_depend(value)
         else:
             raise OrderError("File::Dependency")
@@ -1287,10 +1261,7 @@ class FileBuilder(object):
         Set a file name, uri or home artificat.
         Raise OrderError if no package/unpackaged file is defined.
         """
-        if (
-            (self.has_package(doc) and self.has_file(doc))
-            or (self.has_unpackaged_file(doc) and not self.package_set)
-        ):
+        if (self._build_file_valid(doc)):
             self.file(doc).add_artifact(symbol, value)
         else:
             raise OrderError("File::Artificat")
