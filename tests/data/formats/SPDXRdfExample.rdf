@@ -269,7 +269,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</extractedText>
         <name>SPDX Translator</name>
         <versionInfo>Version 0.9.2</versionInfo>
         <licenseInfoFromFiles rdf:nodeID="A1"/>
-        <hasFile rdf:nodeID="A2"/>
+        <hasFile rdf:resource="https://spdx.org/spdxdocs/spdx-example-444504E0-4F89-41D3-9A0C-0305E82C3301#SPDXRef-File2"/>
         <licenseInfoFromFiles rdf:nodeID="A3"/>
         <copyrightText> Copyright 2010, 2011 Source Auditor Inc.</copyrightText>
         <licenseDeclared>
