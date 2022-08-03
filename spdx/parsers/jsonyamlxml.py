@@ -17,6 +17,7 @@ from spdx.parsers import rdf
 from spdx.parsers.loggers import ErrorMessages
 from spdx import utils
 from spdx.utils import UnKnown
+from spdx.version import Version
 
 
 ERROR_MESSAGES = rdf.ERROR_MESSAGES
@@ -425,7 +426,9 @@ class AnnotationParser(BaseParser):
             except OrderError:
                 self.order_error("ANNOTATION_ID", "ANNOTATOR_VALUE")
         else:
-            self.value_error("ANNOTATION_ID", annotation_id)
+            if not all([Version(2,2) <= self.document.version,
+                        annotation_id is None]):  # TODO: is this right?
+                self.value_error("ANNOTATION_ID", annotation_id)
 
 
 class RelationshipParser(BaseParser):
@@ -615,7 +618,9 @@ class SnippetParser(BaseParser):
             except CardinalityError:
                 self.more_than_one_error("SNIPPET_FILE_ID")
         else:
-            self.value_error("SNIPPET_FILE_ID", file_spdxid)
+            if not all([Version(2,2) <= self.document.version,
+                        file_spdxid is None]):  # TODO: is this right?
+                self.value_error("SNIPPET_FILE_ID", file_spdxid)
 
     def parse_snippet_concluded_license(self, concluded_license):
         """
@@ -659,7 +664,9 @@ class SnippetParser(BaseParser):
                 else:
                     self.value_error("SNIPPET_LIC_INFO", lic_in_snippet)
         else:
-            self.value_error("SNIPPET_LIC_INFO_FIELD", license_info_from_snippet)
+            if not all([Version(2,2) <= self.document.version,
+                        license_info_from_snippet is None]):  # TODO: is this right?
+                self.value_error("SNIPPET_LIC_INFO_FIELD", license_info_from_snippet)
 
 
 class ReviewParser(BaseParser):
@@ -1468,7 +1475,9 @@ class PackageParser(BaseParser):
                 else:
                     self.value_error("PKG_FILE", pkg_file)
         else:
-            self.value_error("PKG_FILES", pkg_files)
+            if not all([Version(2,2) <= self.document.version,
+                        pkg_files is None]):  # TODO: is this right?
+                self.value_error("PKG_FILES", pkg_files)
 
     def parse_pkg_chksum(self, pkg_chksum):
         """

@@ -13,6 +13,7 @@ from datetime import datetime
 from functools import total_ordering
 
 from spdx.utils import datetime_iso_format
+from spdx.version import Version
 
 
 @total_ordering
@@ -75,7 +76,7 @@ class Annotation(object):
     def has_comment(self):
         return self.comment is not None
 
-    def validate(self, messages):
+    def validate(self, messages, version):
         """
         Check that all the fields are valid.
         Appends any error messages to messages parameter shall be a ErrorMessages.
@@ -83,7 +84,7 @@ class Annotation(object):
         self.validate_annotator(messages)
         self.validate_annotation_date(messages)
         self.validate_annotation_type(messages)
-        self.validate_spdx_id(messages)
+        self.validate_spdx_id(messages, version)
 
     def validate_annotator(self, messages):
         if self.annotator is None:
@@ -97,6 +98,6 @@ class Annotation(object):
         if self.annotation_type is None:
             messages.append("Annotation missing annotation type.")
 
-    def validate_spdx_id(self, messages):
-        if self.spdx_id is None:
+    def validate_spdx_id(self, messages, version):
+        if version < Version(2,2) and self.spdx_id is None:
             messages.append("Annotation missing SPDX Identifier Reference.")

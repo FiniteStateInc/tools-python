@@ -461,7 +461,7 @@ class Document(object):
 
     def validate_annotations(self, messages):
         for annotation in self.annotations:
-            messages = annotation.validate(messages)
+            messages = annotation.validate(messages, self.version)
 
     def validate_relationships(self, messages):
         for relationship in self.relationships:
