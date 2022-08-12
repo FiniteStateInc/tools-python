@@ -197,11 +197,11 @@ class FileWriter(BaseWriter):
         for file in files:
             file_object = dict()
 
-            file_object["name"] = file.name
+            file_object["fileName"] = file.name
             file_object["SPDXID"] = self.spdx_id(file.spdx_id)
             file_object["checksums"] = [self.checksum(file.chk_sum)]
             file_object["licenseConcluded"] = self.license(file.conc_lics)
-            file_object["licenseInfoFromFiles"] = list(
+            file_object["licenseInfoInFile"] = list(
                 map(self.license, file.licenses_in_file)
             )
             file_object["copyrightText"] = file.copyright.__str__()

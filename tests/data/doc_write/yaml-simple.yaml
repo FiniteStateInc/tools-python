@@ -20,14 +20,14 @@ Document:
       licenseConcluded: "NOASSERTION"
       files:
       - File:
-          name: "./some/path/tofile"
+          fileName: "./some/path/tofile"
           SPDXID: "SPDXRef-File"
           checksums: 
           - algorithm: "checksumAlgorithm_sha1"
             checksumValue: "SOME-SHA1"
           licenseConcluded: "NOASSERTION"
           copyrightText: "NOASSERTION"
-          licenseInfoFromFiles:
+          licenseInfoInFile:
           - "LGPL-2.1-only"
           sha1: "SOME-SHA1"
       licenseInfoFromFiles:

@@ -23,7 +23,7 @@
                 <licenseConcluded>NOASSERTION</licenseConcluded>
                 <files>
 					<File>
-						<name>./some/path/tofile</name>
+						<fileName>./some/path/tofile</fileName>
 						<SPDXID>SPDXRef-File</SPDXID>
 						<checksums>
 							<checksumValue>SOME-SHA1</checksumValue>
@@ -31,7 +31,7 @@
 						</checksums>
                         <licenseConcluded>NOASSERTION</licenseConcluded>
                         <copyrightText>NOASSERTION</copyrightText>
-						<licenseInfoFromFiles>LGPL-2.1-or-later</licenseInfoFromFiles>
+						<licenseInfoInFile>LGPL-2.1-or-later</licenseInfoInFile>
 						<sha1>SOME-SHA1</sha1>
 					</File>
 				</files>

@@ -21,13 +21,15 @@ test_files = [os.path.join(dirname, fn) for fn in os.listdir(dirname)]
 
 @pytest.mark.parametrize("test_file", test_files)
 def test_parse_anything(test_file):
+    doc, error = parse_anything.parse_file(test_file)
+
     in_basename = os.path.basename(test_file)
     if in_basename == "SPDXJSONExample-v2.2.spdx.json":  # TODO: investigate 2.2 json failures
         # conversion of spdx2.2 is not yet done
-        return
-    doc, error = parse_anything.parse_file(test_file)
-
-    assert not error
+        chksum_error = "'None' is not a valid value for FILE_CHECKSUM"  # spdx/tools-python/pull/197 should fix
+        assert not set(error).difference(chksum_error)
+    else:
+        assert not error
 
     # test a few fields, the core of the tests are per parser
     assert doc.name in ('Sample_Document-V2.1', 'xyz-0.1.0')

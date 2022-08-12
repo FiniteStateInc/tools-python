@@ -744,11 +744,11 @@ class FileParser(BaseParser):
         - file: Python dict with File Information fields in it
         """
         if isinstance(file, dict):
-            self.parse_file_name(file.get("name"))
+            self.parse_file_name(file.get("fileName", file.get("name")))  # TODO: deprecate 'name'
             self.parse_file_id(file.get("SPDXID"))
             self.parse_file_types(file.get("fileTypes"))
             self.parse_file_concluded_license(file.get("licenseConcluded"))
-            self.parse_file_license_info_from_files(file.get("licenseInfoFromFiles"))
+            self.parse_file_license_info_from_files(file.get("licenseInfoInFile", file.get("licenseInfoFromFiles")))  # TODO: deprecate 'licenseInfoFromFiles'
             self.parse_file_license_comments(file.get("licenseComments"))
             self.parse_file_copyright_text(file.get("copyrightText"))
             self.parse_file_artifacts(file.get("artifactOf"))
@@ -1076,6 +1076,7 @@ class PackageParser(BaseParser):
             self.parse_annotations(package.get("annotations"))
             self.parse_pkg_attribution_text(package.get("attributionTexts"))
             self.parse_pkg_files(package.get("files"))
+            self.parse_pkg_has_files(package.get("hasFiles"))
             self.parse_pkg_chksum(package.get("sha1"))
         else:
             self.value_error("PACKAGE", package)
@@ -1479,6 +1480,13 @@ class PackageParser(BaseParser):
                         pkg_files is None]):  # TODO: is this right?
                 self.value_error("PKG_FILES", pkg_files)
 
+    def parse_pkg_has_files(self, pkg_has_files):
+         for has_file_spdx_id in pkg_has_files or []:
+             for index, spdx_file in enumerate(self.document.unpackaged_files):
+                 if spdx_file.spdx_id == has_file_spdx_id:
+                     self.document.packages[-1].files.append(spdx_file)
+                     del self.document.unpackaged_files[index]
+
     def parse_pkg_chksum(self, pkg_chksum):
         """
         Parse Package checksum
@@ -1545,6 +1553,7 @@ class Parser(
         self.parse_reviews(self.document_object.get("reviewers"))
         self.parse_snippets(self.document_object.get("snippets"))
 
+        self.parse_files(self.document_object.get("files"))
         self.parse_packages(self.document_object.get("packages"))
 
         self.parse_doc_described_objects(self.document_object.get("documentDescribes"))
@@ -1668,6 +1677,17 @@ class Parser(
             return True
         else:
             self.value_error("DOC_DESCRIBES", doc_described_objects)
+
+
+    def parse_files(self, files):
+        """
+        Parse SPDX files list
+        """
+        if files is None:
+            return
+        if isinstance(files, list):
+            for spdx_file in files:
+                self.parse_file(spdx_file)
 
 
     def parse_packages(self, packages):
