@@ -178,14 +178,15 @@ class FileBuilder(rdfbuilders.FileBuilder):
         fileType representations.
         """
 
-        type_dict = {
+        type_dict = {  # TODO: Review what uses this map. Can it be removed?
             "fileType_source": "SOURCE",
             "fileType_binary": "BINARY",
             "fileType_archive": "ARCHIVE",
             "fileType_other": "OTHER",
         }
+        file_type = type_dict.get(type_value, type_value)  # run input through the map, just in case something uses it
 
-        return super(FileBuilder, self).set_file_type(doc, type_dict.get(type_value))
+        return super(FileBuilder, self).set_file_type(doc, file_type)
 
 
 class AnnotationBuilder(tagvaluebuilders.AnnotationBuilder):
