@@ -36,7 +36,7 @@
                                 ],
                                 "licenseConcluded": "NOASSERTION",
                                 "copyrightText": "NOASSERTION",
-                                "licenseInfoInFile": ["LGPL-2.1-or-later"],
+                                "licenseInfoInFiles": ["LGPL-2.1-or-later"],
                                 "sha1": "SOME-SHA1"
                             }
                         }

@@ -31,7 +31,7 @@
 						</checksums>
                         <licenseConcluded>NOASSERTION</licenseConcluded>
                         <copyrightText>NOASSERTION</copyrightText>
-						<licenseInfoInFile>LGPL-2.1-only</licenseInfoInFile>
+						<licenseInfoInFiles>LGPL-2.1-only</licenseInfoInFiles>
 						<sha1>SOME-SHA1</sha1>
 					</File>
 				</files>

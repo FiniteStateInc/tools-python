@@ -36,7 +36,8 @@ class Parser(jsonyamlxml.Parser):
             "licenseInfoFromSnippet",
             "reviewers",
             "fileTypes",
-            "licenseInfoFromFiles",
+            "licenseInfoInFiles",
+            "licenseInfoFromFiles",  # TODO: deprecate xml 'From' files
             "artifactOf",
             "fileContributors",
             "fileDependencies",

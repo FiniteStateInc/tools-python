@@ -748,7 +748,7 @@ class FileParser(BaseParser):
             self.parse_file_id(file.get("SPDXID"))
             self.parse_file_types(file.get("fileTypes"))
             self.parse_file_concluded_license(file.get("licenseConcluded"))
-            self.parse_file_license_info_from_files(file.get("licenseInfoInFile", file.get("licenseInfoFromFiles")))  # TODO: deprecate 'licenseInfoFromFiles'
+            self.parse_file_license_info_from_files(file.get("licenseInfoInFiles", file.get("licenseInfoFromFiles")))  # XML xmi model uses 'From'
             self.parse_file_license_comments(file.get("licenseComments"))
             self.parse_file_copyright_text(file.get("copyrightText"))
             self.parse_file_artifacts(file.get("artifactOf"))

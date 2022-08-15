@@ -27,7 +27,7 @@ Document:
             checksumValue: "SOME-SHA1"
           licenseConcluded: "NOASSERTION"
           copyrightText: "NOASSERTION"
-          licenseInfoInFile:
+          licenseInfoInFiles:
           - "LGPL-2.1-or-later"
           sha1: "SOME-SHA1"
       licenseInfoFromFiles:
