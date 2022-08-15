@@ -26,11 +26,18 @@ def test_parse_anything(test_file):
     in_basename = os.path.basename(test_file)
     if in_basename == "SPDXJSONExample-v2.2.spdx.json":  # TODO: investigate 2.2 json failures
         # conversion of spdx2.2 is not yet done
-        chksum_error = "'None' is not a valid value for FILE_CHECKSUM"  # spdx/tools-python/pull/197 should fix
-        assert not set(error).difference(chksum_error)
+        chksum_error_suffix = 'File checksum must be instance of spdx.checksum.Algorithm'
+        expected_errors = set([chksum_error_suffix])  # spdx/tools-python/pull/197 should fix
+        validation_errors = set(msg.rsplit(':').pop().strip() for msg in doc.validate())
+        assert not validation_errors.difference(expected_errors)
     else:
         assert not error
 
     # test a few fields, the core of the tests are per parser
-    assert doc.name in ('Sample_Document-V2.1', 'xyz-0.1.0')
-    assert doc.comment in (None, 'This is a sample spreadsheet', 'Sample Comment')
+    assert doc.name in ('Sample_Document-V2.1', 'xyz-0.1.0', 'SPDX-Tools-v2.0')
+    assert doc.comment in (
+        None,
+        'This is a sample spreadsheet',
+        'Sample Comment',
+        'This document was created using SPDX 2.0 using licenses from the web site.',
+    )

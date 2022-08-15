@@ -503,7 +503,7 @@ class SnippetParser(BaseParser):
                         self.parse_snippet_license_comment(
                             snippet.get("licenseComments")
                         )
-                        self.parse_snippet_file_spdxid(snippet.get("fileId"))
+                        self.parse_snippet_file_spdxid(snippet.get("snippetFromFile", snippet.get("fileId")))  # SPDX 2.3 sample files use snippetFromFile
                         self.parse_snippet_concluded_license(
                             snippet.get("licenseConcluded")
                         )
@@ -511,7 +511,7 @@ class SnippetParser(BaseParser):
                             snippet.get("attributionTexts")
                         )
                         self.parse_snippet_license_info_from_snippet(
-                            snippet.get("licenseInfoFromSnippet")
+                            snippet.get("licenseInfoInSnippets", snippet.get("licenseInfoFromSnippet"))  # SPDX 2.3 sample files use licenseInfoInSnippets
                         )
                 else:
                     self.value_error("SNIPPET", snippet)
@@ -618,9 +618,7 @@ class SnippetParser(BaseParser):
             except CardinalityError:
                 self.more_than_one_error("SNIPPET_FILE_ID")
         else:
-            if not all([Version(2,2) <= self.document.version,
-                        file_spdxid is None]):  # TODO: is this right?
-                self.value_error("SNIPPET_FILE_ID", file_spdxid)
+            self.value_error("SNIPPET_FILE_ID", file_spdxid)
 
     def parse_snippet_concluded_license(self, concluded_license):
         """
@@ -664,9 +662,7 @@ class SnippetParser(BaseParser):
                 else:
                     self.value_error("SNIPPET_LIC_INFO", lic_in_snippet)
         else:
-            if not all([Version(2,2) <= self.document.version,
-                        license_info_from_snippet is None]):  # TODO: is this right?
-                self.value_error("SNIPPET_LIC_INFO_FIELD", license_info_from_snippet)
+            self.value_error("SNIPPET_LIC_INFO_FIELD", license_info_from_snippet)
 
 
 class ReviewParser(BaseParser):

@@ -162,10 +162,10 @@ class FileBuilder(rdfbuilders.FileBuilder):
     def set_file_notice(self, doc, text):
         """
         Set file notice
-        Raise OrderError if no package or file defined.
+        Raise OrderError if no package, package file, or unpackaged file is defined.
         Raise CardinalityError if more than one.
         """
-        if self.has_package(doc) and self.has_file(doc):
+        if self._build_file_valid(doc):
             self.file_notice_set = True
             self.file(doc).notice = text
             return True
