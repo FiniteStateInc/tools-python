@@ -1669,7 +1669,7 @@ class Parser(
             for package in packages:
                 self.parse_package(package.get("Package"))
             for file in files:
-                self.parse_file(file.get("File"))
+                self.parse_file(file.get("File", file))
             return True
         else:
             self.value_error("DOC_DESCRIBES", doc_described_objects)
@@ -1683,7 +1683,7 @@ class Parser(
             return
         if isinstance(files, list):
             for spdx_file in files:
-                self.parse_file(spdx_file)
+                self.parse_file(spdx_file.get("File", spdx_file))
 
 
     def parse_packages(self, packages):
