@@ -24,7 +24,7 @@ def test_parse_anything(test_file):
     doc, error = parse_anything.parse_file(test_file)
 
     in_basename = os.path.basename(test_file)
-    if in_basename == "SPDXJSONExample-v2.2.spdx.json":  # TODO: investigate 2.2 json failures
+    if in_basename == "SPDXJSONExample-v2.2.spdx.json":
         # conversion of spdx2.2 is not yet done
         chksum_error_suffix = 'File checksum must be instance of spdx.checksum.Algorithm'
         expected_errors = set([chksum_error_suffix])  # spdx/tools-python/pull/197 should fix

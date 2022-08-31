@@ -375,7 +375,6 @@ class TestParserUtils(object):
 
         for file in files:
             lics_from_files = sorted(file.licenses_in_file, key=lambda lic: lic.identifier)
-            contributors = sorted(file.contributors, key=lambda c: c.name)
             file_dict = OrderedDict([
                 ('id', file.spdx_id),
                 ('name', file.name),
@@ -387,7 +386,7 @@ class TestParserUtils(object):
                 ('notice', file.notice),
                 ('checksum', cls.checksum_to_dict(file.chk_sum)),
                 ('licenseInfoFromFiles', [cls.license_to_dict(lic) for lic in lics_from_files]),
-                ('contributors', [cls.entity_to_dict(contributor) for contributor in contributors]),
+                ('contributors', sorted(file.contributors)),
                 ('dependencies', sorted(file.dependencies)),
                 ('artifactOfProjectName', file.artifact_of_project_name),
                 ('artifactOfProjectHome', file.artifact_of_project_home),

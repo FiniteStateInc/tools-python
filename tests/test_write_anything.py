@@ -47,20 +47,34 @@ UNSTABLE_CONVERSIONS = {
 @pytest.mark.parametrize("in_file", test_files, ids=lambda x: os.path.basename(x))
 def test_write_anything(in_file, out_format, tmpdir):
     in_basename = os.path.basename(in_file)
-    if in_basename == "SPDXSBOMExample.spdx.yml" or in_basename == "SPDXJSONExample-v2.2.spdx.json":  # TODO: investigate 2.2 json failures
+    if in_basename == "SPDXSBOMExample.spdx.yml":
         # conversion of spdx2.2 is not yet done
         return
     doc, error = parse_anything.parse_file(in_file)
 
-    assert not error
+    perform_write_validation = True
+    if in_basename == "SPDXJSONExample-v2.2.spdx.json":  # checksum is not yet supported
+        chksum_error_suffix = 'File checksum must be instance of spdx.checksum.Algorithm'
+        expected_errors = set([chksum_error_suffix])  # spdx/tools-python/pull/197 should fix
+        validation_errors = set(msg.rsplit(':').pop().strip() for msg in doc.validate())
+        assert not validation_errors.difference(expected_errors)
+        perform_write_validation = False  # skip, we have expected errors & ONLY expected errors
+    else:
+        assert not error
     result = utils_test.TestParserUtils.to_dict(doc)
 
     out_fn = os.path.join(tmpdir, "test." + out_format)
-    write_anything.write_file(doc, out_fn)
+    write_anything.write_file(doc, out_fn, perform_write_validation)  # FIXME: without validation, fails on 'tag' FileChecksum
 
     doc2, error2 = parse_anything.parse_file(out_fn)
     result2 = utils_test.TestParserUtils.to_dict(doc2)
-    assert not error2
+    if in_basename == "SPDXJSONExample-v2.2.spdx.json":  # checksum is not yet supported
+        chksum_error_suffix = 'File checksum must be instance of spdx.checksum.Algorithm'
+        expected_errors = set([chksum_error_suffix])  # spdx/tools-python/pull/197 should fix
+        validation_errors = set(msg.rsplit(':').pop().strip() for msg in doc2.validate())
+        assert not validation_errors.difference(expected_errors)
+    else:
+        assert not error2
     
     test = in_basename + "-" + out_format
     if test not in UNSTABLE_CONVERSIONS:
